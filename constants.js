@@ -1,0 +1,15 @@
+// timeout between channel subs/videos fetch
+const CHANNEL_SUBS_INTERVAL = 3600 * 24; // seconds
+const CHANNEL_VIDEO_LIST_INTERVAL = 3600 * 24; // seconds
+const CHANNEL_VIDEO_INTERVAL = 3600 * 24; // seconds
+// queue limits
+const CHANNEL_SUBS_QUEUE_SIZE_LIMIT = 10;
+const CHANNEL_VIDEOS_QUEUE_SIZE_LIMIT = 10;
+
+module.exports = {
+  CHANNEL_SUBS_INTERVAL,
+  CHANNEL_VIDEO_LIST_INTERVAL,
+  CHANNEL_VIDEO_INTERVAL,
+  CHANNEL_SUBS_QUEUE_SIZE_LIMIT,
+  CHANNEL_VIDEOS_QUEUE_SIZE_LIMIT,
+};
