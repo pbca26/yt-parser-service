@@ -1,0 +1,27 @@
+{
+  "name": "yt-parser-service-architecture",
+  "version": "0.1.0",
+  "author": "Petr Balashov <pbca26@gmail.com>",
+  "description": "Youtube parser service architecture",
+  "repository": "pbca26/yt-parser-service-architecture",
+  "homepage": "https://pbca26.github.io/yt-parser-service-architecture",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "generate": "node gen-channels-list",
+    "seed-db": "node seed-db",
+    "mock-server": "node yt-mock-server",
+    "cluster1": "node cluster",
+    "cluster2": "node cluster video"
+  },
+  "engines": {
+    "node": ">=17.9.1"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongodb": "^4.10.0",
+    "node-fetch": "^2.6.7",
+    "redis": "^4.3.1",
+    "xml2js": "^0.4.23"
+  }
+}
