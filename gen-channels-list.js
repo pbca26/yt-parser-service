@@ -20,6 +20,9 @@ const generateBatch = () => {
   return batch;
 };
 
+// since generating and writing to fs 100 million is a time consuming op
+// use optimization to write stream data in batches
+// switch control and await for underlying fs to flush batch data to the disk
 const processBatch = () => {
   if ((num * batchSize * 100 / size) % 10 === 0 && (num * batchSize * 100 / size) > 5) console.log(`${num * batchSize * 100 / size}%`);
 

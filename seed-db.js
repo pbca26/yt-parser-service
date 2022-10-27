@@ -13,7 +13,7 @@ db.open();
 
 let linesProcessed = 0;
 let batchSize = 1000;
-let batch = [];
+const batch = [];
 
 const rl = readline.createInterface({
   input: fs.createReadStream('./mocks/channels-list.txt'),
@@ -28,10 +28,12 @@ rl.on('line', async(line) => {
     subscribersUpdatedAt: 0,
     videosUpdatedAt: 0,
   });
+
   if (batch.length === batchSize - 1) {
     db.addChannelMany(batch);
     batch = [];
   }
   linesProcessed++;
+  
   if ((linesProcessed * 100) / 100000000 % 0.001 === 0) console.log(`${(linesProcessed * 100) / 100000000}%`);
 });

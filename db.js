@@ -13,15 +13,14 @@ class DBController {
     const self = this;
   
     if (!this.client) {
-      return new Promise((resolve, reject) => {
-        MongoClient.connect(self.dbUrl, (err, client) => {
-          if (err) throw err;
-        
-          const db = client.db(self.dbName);
-          self.client = client;
-          self.db = db;
-          resolve(true);
-        });
+      return new Promise(async(resolve, reject) => {
+        const client = new MongoClient(self.url);
+        await client.connect();
+
+        const db = client.db(self.name);
+        self.client = client;
+        self.db = db;
+        resolve(true);
       });
     }
   };
@@ -53,7 +52,6 @@ class DBController {
           {upsert: true},
           (err, result) => {
             if (err) throw err;
-            //console.log(result);
             resolve(result);
           });
       }
@@ -68,7 +66,6 @@ class DBController {
         self.db.collection('channels')
         .insertMany(data, (err, result) => {
           if (err) throw err;
-          //console.log(result);
           resolve(result);
         });
       }
@@ -101,7 +98,6 @@ class DBController {
           {upsert: true},
           (err, result) => {
             if (err) throw err;
-            //console.log(result);
             resolve(result);
           });
       }
@@ -120,9 +116,7 @@ class DBController {
           },
           {projection: {_id: 0}},
           (err, result) => {
-            console.log(err);
             if (err) throw err;
-            console.log(result);
             resolve(result);
           });
       }
@@ -153,7 +147,6 @@ class DBController {
           {upsert: true},
           (err, result) => {
             if (err) throw err;
-            //console.log(result);
             resolve(result);
           });
       }
@@ -177,10 +170,9 @@ class DBController {
           },
           {projection: {_id: 0}
         })
-        .limit(limit ? limit : 5)
+        .limit(limit ? limit : constants.CHANNEL_SUBS_QUEUE_SIZE_LIMIT)
         .toArray((err, result) => {
           if (err) throw err;
-          console.log(result);
           resolve(result);
         });
       }
@@ -204,10 +196,9 @@ class DBController {
           },
           {projection: {_id:0 }
         })
-        .limit(limit ? limit : 5)
+        .limit(limit ? limit : constants.CHANNEL_VIDEOS_QUEUE_SIZE_LIMIT)
         .toArray((err, result) => {
           if (err) throw err;
-          console.log(result);
           resolve(result);
         });
       }
@@ -218,6 +209,7 @@ class DBController {
     const self = this;
     const bulkOperations = [];
   
+    // use mongodb optimization to insert/update multiple records into db
     for (let i = 0; i < data.length; i++) {
       bulkOperations.push({
         updateOne: {
@@ -240,14 +232,12 @@ class DBController {
       });
     }
   
-    //console.log(JSON.stringify(bulkOperations, null, 2));
   
     return new Promise((resolve, reject) => {
       if (self.db) {
         self.db.collection('videos')
         .bulkWrite(bulkOperations, (err, result) => {
           if (err) throw err;
-          //console.log(result);
           resolve(result);
         });
       }

@@ -9,16 +9,13 @@ app.listen(config.yt.port, () => {
 });
 
 app.get('/channel/:id', (req, res) => {
-  console.log(req.params.id);
   res.sendFile(path.join(__dirname, './mocks/channel-subscribers.txt'));
 });
 
 app.get('/feed/:id', (req, res) => {
-  console.log(req.params.id);
   res.sendFile(path.join(__dirname, './mocks/channel-feed.txt'));
 });
 
 app.get('/video/:id', (req, res) => {
-  console.log(req.params.id);
   res.sendFile(path.join(__dirname, './mocks/channel-video.txt'));
 });
